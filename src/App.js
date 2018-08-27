@@ -6,10 +6,12 @@ class ObservationCard extends Component {
     const observation = this.props.observation;
     return (
       <div class="observationCard">
-        <div class="photo">{observation.photo}</div>
-        <div class="taxon">{observation.taxon}</div>
-        <div class="user">{observation.user}</div>
-        <div class="date">{observation.date}</div>
+        <div class="photo">
+          <img src="https://farm4.staticflickr.com/3334/3406470969_3951b58e44_s.jpg" />
+        </div>
+        <div class="taxon">taxon: {observation.taxon}</div>
+        <div class="user">user: @{observation.user}</div>
+        <div class="date">date: {observation.date}</div>
       </div>
     );
   }

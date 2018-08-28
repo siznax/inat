@@ -1,19 +1,35 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const DEFAULT_PHOTO = 'https://raw.githubusercontent.com/inaturalist/inaturalist/master/public/attachment_defaults/general/thumb.png';
+const INAT = 'https://www.inaturalist.org';
+const INAT_API = 'https://api.inaturalist.org/v1';
+
+
 class ObservationCard extends Component {
+
   render() {
     const observation = this.props.observation;
-    var photo = 'https://raw.githubusercontent.com/inaturalist/inaturalist/master/public/attachment_defaults/general/thumb.png';
+
+    var photo = DEFAULT_PHOTO;
+    if (observation.photos.length > 0) {
+      photo = observation.photos[0].url;
+    }
+
     var taxon = observation.taxon ? observation.taxon.name : 'taxon';
     var user = observation.user.login;
     var date = observation.observed_on;
+
+    var observation_url = INAT + '/observations/' + observation.id;
+    var observer_url = INAT + '/people/' + user;
+
     return (
       <div class="observationCard">
-        <div class="photo"><img src={photo} /></div>
+        <div class="photo">
+          <a href={observation_url}><img src={photo} /></a></div>
         <div class="taxon"><i>{taxon}</i></div>
         <div class="date">{date}</div>
-        <div class="user">@{user}</div>
+        <div class="user"><a href={observer_url}>@{user}</a></div>
       </div>
     );
   }
@@ -52,6 +68,7 @@ class FilterBar extends Component {
                 <option value="needs_id">Needs ID</option>
                 <option value="research">Research</option>
                 <option value="casual">Casual</option>
+                <option value="varifiable">Verifiable</option>
               </select>
             </td>
           </tr>
@@ -117,7 +134,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("https://api.inaturalist.org/v1/observations?per_page=10&order=desc&order_by=created_at")
+    fetch(INAT_API + "/observations?per_page=10&order=desc&order_by=created_at")
       .then(res => res.json())
       .then(
         (result) => {

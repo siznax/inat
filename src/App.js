@@ -80,7 +80,7 @@ class SummaryDiv extends Component {
 }
 
 
-class FilterBar extends Component {
+class FilterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -115,7 +115,7 @@ class FilterBar extends Component {
 
   render() {
     return (
-      <form id="filterBarForm" onSubmit={this.handleSubmit}>
+      <form id="filterForm" onSubmit={this.handleSubmit}>
         <table>
           <tr>
             <td>Quality: </td>
@@ -234,7 +234,7 @@ class App extends Component {
             <h3>Steve's iNat React App</h3>
             <p><a href={DEMO_URL}>{DEMO_URL}</a></p>
           </div>
-          <FilterBar />
+          <FilterForm />
           <SummaryDiv summary={summary} />
           <ObservationsDiv observations={result.results} />
         </div>

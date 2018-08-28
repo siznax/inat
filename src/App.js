@@ -103,8 +103,10 @@ class FilterForm extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
+
     var api_args = [];
-    var fetch_url = INAT + '/observations?';
+    var fetch_url = INAT_API + '/observations?';
 
     if (this.state.quality !== 'any') {
       if (this.state.quality == 'verifiable') {
@@ -140,7 +142,22 @@ class FilterForm extends Component {
       + '\ntaxon: ' + this.state.taxon
       + '\nargs: ' + api_args.join('&'));
 
-    event.preventDefault();
+    fetch(fetch_url + api_args.join('&'))
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            result: result
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
 
   }
 

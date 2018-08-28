@@ -1,3 +1,11 @@
+Source repo:
+
+<https://github.com/siznax/inat>
+
+GitHub Pages app:
+
+<https://siznax.github.io/inat>
+
 To install:
 
 ```shell

@@ -12,6 +12,14 @@ form#filterBarForm {
   border: 1px solid green;
 }
 
+div#SummaryDiv {
+  margin: 32px;
+}
+
+table#SummaryTable td {
+  padding: 4px 8px;
+}
+
 div#observationsDiv {
   padding: 32px;
   display: block;

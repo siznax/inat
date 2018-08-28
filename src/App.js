@@ -39,6 +39,7 @@ class ObservationCard extends Component {
   }
 }
 
+
 class ObservationsDiv extends Component {
   render() {
     const cards = [];
@@ -57,6 +58,27 @@ class ObservationsDiv extends Component {
     return (<div id="observationsDiv">{ cards }</div>);
   }
 }
+
+
+class SummaryDiv extends Component {
+  render() {
+    const total = this.props.summary.total;
+    const page = this.props.summary.page;
+    const per_page = this.props.summary.per_page;
+    return (
+      <div id="SummaryDiv">
+        <table id="SummaryTable">
+          <tr>
+            <td>Total: {total.toLocaleString()}</td>
+            <td>Per page: {per_page}</td>
+            <td>Page: {page}</td>
+          </tr>
+        </table>
+      </div>
+    );
+  }
+}
+
 
 class FilterBar extends Component {
   constructor(props) {
@@ -164,6 +186,7 @@ class FilterBar extends Component {
   }
 }
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -181,7 +204,7 @@ class App extends Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            results: result.results
+            result: result
           });
         },
         (error) => {
@@ -194,12 +217,17 @@ class App extends Component {
   }
 
   render() {
-    const { error, isLoaded, results } = this.state;
+    const { error, isLoaded, result } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
+      const summary = {
+        total: result.total_results,
+        page: result.page,
+        per_page: result.per_page
+      }
       return (
         <div>
           <div id="header">
@@ -207,7 +235,8 @@ class App extends Component {
             <p><a href={DEMO_URL}>{DEMO_URL}</a></p>
           </div>
           <FilterBar />
-          <ObservationsDiv observations={results} />
+          <SummaryDiv summary={summary} />
+          <ObservationsDiv observations={result.results} />
         </div>
       );
     }

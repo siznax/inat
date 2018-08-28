@@ -15,7 +15,7 @@ $ yarn start
 To build and deploy:
 
 ```shell
-$ yarn deploy
+$ yarn run deploy
 ```
 
 Current state:

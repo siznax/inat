@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 
 const DEFAULT_PHOTO = 'https://raw.githubusercontent.com/inaturalist/inaturalist/master/public/attachment_defaults/general/thumb.png';
+const DEMO_URL = 'https://siznax.github.com/inat';
+
 const INAT = 'https://www.inaturalist.org';
 const INAT_API = 'https://api.inaturalist.org/v1';
-
 
 class ObservationCard extends Component {
 
@@ -164,7 +165,10 @@ class App extends Component {
     } else {
       return (
         <div>
-          <h3>Steve's iNat React App</h3>
+          <div id="header">
+            <h3>Steve's iNat React App</h3>
+            <p><a href={DEMO_URL}>{DEMO_URL}</a></p>
+          </div>
           <FilterBar />
           <ObservationsDiv observations={results} />
         </div>

@@ -2,7 +2,7 @@ body {
   background-color: honeydew;
 }
 
-h3 {
+div#header {
   margin: 16px;
 }
 

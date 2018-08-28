@@ -96,7 +96,7 @@ class FilterBar extends Component {
           </tr>
 
           <tr>
-            <td>Location: </td>
+            <td>Native: </td>
             <td>
               <select name="location">
                 <option value="any">Any</option>
@@ -164,7 +164,7 @@ class App extends Component {
     } else {
       return (
         <div>
-          <h1>Steve's iNat React App</h1>
+          <h3>Steve's iNat React App</h3>
           <FilterBar />
           <ObservationsDiv observations={results} />
         </div>

@@ -148,7 +148,12 @@ class FilterForm extends Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            result: result
+            summary: {
+              total: result.total_results,
+              page: result.page,
+              per_page: result.per_page
+            },
+            results: result.results
           });
         },
         (error) => {
@@ -241,6 +246,7 @@ class App extends Component {
     this.state = {
       error: null,
       isLoaded: false,
+      summary: null,
       results: []
     };
   }
@@ -252,7 +258,12 @@ class App extends Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            result: result
+            summary: {
+              total: result.total_results,
+              page: result.page,
+              per_page: result.per_page
+            },
+            results: result.results
           });
         },
         (error) => {
@@ -265,17 +276,12 @@ class App extends Component {
   }
 
   render() {
-    const { error, isLoaded, result } = this.state;
+    const { error, isLoaded, summary, results } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      const summary = {
-        total: result.total_results,
-        page: result.page,
-        per_page: result.per_page
-      }
       return (
         <div>
           <div id="header">
@@ -284,7 +290,7 @@ class App extends Component {
           </div>
           <FilterForm />
           <SummaryDiv summary={summary} />
-          <ObservationsDiv observations={result.results} />
+          <ObservationsDiv observations={results} />
         </div>
       );
     }

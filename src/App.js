@@ -43,24 +43,64 @@ class FilterBar extends Component {
   render() {
     return (
       <form id="filterBarForm">
-        <div className="radio">
-          <label>
-            <input type="radio" value="quality_grade_research" />
-              Research
-          </label>
-        </div>
-        <div className="radio">
-          <label>
-            <input type="radio" value="quality_grade_needs_id" checked={true}/>
-              Needs ID
-          </label>
-        </div>
-        <div className="radio">
-          <label>
-            <input type="radio" value="quality_grade_casual" />
-              Casual
-          </label>
-        </div>
+        <table>
+          <tr>
+            <td>Quality: </td>
+            <td>
+              <select name="quality">
+                <option value="any">Any</option>
+                <option value="needs_id">Needs ID</option>
+                <option value="research">Research</option>
+                <option value="casual">Casual</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Media: </td>
+            <td>
+              <select name="mediatype">
+                <option value="any">Any</option>
+                <option value="photos">Photos</option>
+                <option value="sounds">Sounds</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Community: </td>
+            <td>
+              <select name="community">
+                <option value="all">All</option>
+                <option value="identified">Identified</option>
+                <option value="popular">Popular</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Location: </td>
+            <td>
+              <select name="location">
+                <option value="any">Any</option>
+                <option value="endemic">Endemic</option>
+                <option value="introduced">Introduced</option>
+                <option value="native">Native</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Taxon: </td>
+            <td><input name="taxon" type="text" /></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td><input type="submit" /></td>
+          </tr>
+
+        </table>
       </form>
     );
   }

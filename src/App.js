@@ -26,10 +26,10 @@ class ObservationCard extends Component {
     return (
       <div class="observationCard">
         <div class="photo">
-          <a href={observation_url}><img src={photo} /></a></div>
+          <a href={observation_url}><img alt="" src={photo} /></a></div>
         <div class="taxon"><i>{taxon}</i></div>
-        <div class="date">{date}</div>
         <div class="user"><a href={observer_url}>@{user}</a></div>
+        <div class="date">{date}</div>
       </div>
     );
   }

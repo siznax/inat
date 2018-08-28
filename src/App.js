@@ -7,10 +7,12 @@ const DEMO_URL = 'https://siznax.github.com/inat';
 const INAT = 'https://www.inaturalist.org';
 const INAT_API = 'https://api.inaturalist.org/v1';
 
+
 class ObservationCard extends Component {
 
   render() {
     const observation = this.props.observation;
+    const number = this.props.count;
 
     var photo = DEFAULT_PHOTO;
     if (observation.photos.length > 0) {
@@ -21,6 +23,7 @@ class ObservationCard extends Component {
     var user = observation.user.login;
     var date = observation.observed_on;
 
+    // observation.uri ?
     var observation_url = INAT + '/observations/' + observation.id;
     var observer_url = INAT + '/people/' + user;
 
@@ -28,7 +31,7 @@ class ObservationCard extends Component {
       <div class="observationCard">
         <div class="photo">
           <a href={observation_url}><img alt="" src={photo} /></a></div>
-        <div class="taxon"><i>{taxon}</i></div>
+        <div class="taxon">{number}. <i>{taxon}</i></div>
         <div class="user"><a href={observer_url}>@{user}</a></div>
         <div class="date">{date}</div>
       </div>
@@ -39,32 +42,63 @@ class ObservationCard extends Component {
 class ObservationsDiv extends Component {
   render() {
     const cards = [];
+    var count = 0;
 
     this.props.observations.forEach((observation) => {
+      count += 1;
       cards.push(
         <ObservationCard
+          count={count}
           observation={observation}
           key={observation.id} />
       )
     })
 
-    return (
-      <div id="observationsDiv">
-        {cards}
-      </div>
-    );
+    return (<div id="observationsDiv">{ cards }</div>);
   }
 }
 
 class FilterBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      quality: 'any',
+      mediatype: 'any',
+      community: 'all',
+      nativity: 'any',
+      taxon: ''
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit(event) {
+    alert(
+      'quality: ' + this.state.quality
+      + '\nmediatype: ' + this.state.mediatype
+      + '\ncommunity: ' + this.state.community
+      + '\nnativity: ' + this.state.nativity
+      + '\ntaxon: ' + this.state.taxon);
+    // fetch
+    event.preventDefault();
+  }
+
   render() {
     return (
-      <form id="filterBarForm">
+      <form id="filterBarForm" onSubmit={this.handleSubmit}>
         <table>
           <tr>
             <td>Quality: </td>
             <td>
-              <select name="quality">
+              <select name="quality" onChange={this.handleChange}>
                 <option value="any">Any</option>
                 <option value="needs_id">Needs ID</option>
                 <option value="research">Research</option>
@@ -77,7 +111,7 @@ class FilterBar extends Component {
           <tr>
             <td>Media: </td>
             <td>
-              <select name="mediatype">
+              <select name="mediatype" onChange={this.handleChange}>
                 <option value="any">Any</option>
                 <option value="photos">Photos</option>
                 <option value="sounds">Sounds</option>
@@ -88,7 +122,7 @@ class FilterBar extends Component {
           <tr>
             <td>Community: </td>
             <td>
-              <select name="community">
+              <select name="community" onChange={this.handleChange}>
                 <option value="all">All</option>
                 <option value="identified">Identified</option>
                 <option value="popular">Popular</option>
@@ -97,9 +131,9 @@ class FilterBar extends Component {
           </tr>
 
           <tr>
-            <td>Native: </td>
+            <td>Nativity: </td>
             <td>
-              <select name="location">
+              <select name="nativity" onChange={this.handleChange}>
                 <option value="any">Any</option>
                 <option value="endemic">Endemic</option>
                 <option value="introduced">Introduced</option>
@@ -110,7 +144,13 @@ class FilterBar extends Component {
 
           <tr>
             <td>Taxon: </td>
-            <td><input name="taxon" type="text" /></td>
+            <td>
+                <input
+                  type="text"
+                  name="taxon"
+                  placeholder="taxon name"
+                  onChange={this.handleChange}/>
+            </td>
           </tr>
 
           <tr>
@@ -135,7 +175,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch(INAT_API + "/observations?per_page=10&order=desc&order_by=created_at")
+    fetch(INAT_API + "/observations")
       .then(res => res.json())
       .then(
         (result) => {
@@ -144,9 +184,6 @@ class App extends Component {
             results: result.results
           });
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
           this.setState({
             isLoaded: true,

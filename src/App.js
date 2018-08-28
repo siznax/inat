@@ -4,14 +4,16 @@ import './App.css';
 class ObservationCard extends Component {
   render() {
     const observation = this.props.observation;
+    var photo = 'https://raw.githubusercontent.com/inaturalist/inaturalist/master/public/attachment_defaults/general/thumb.png';
+    var taxon = observation.taxon ? observation.taxon.name : 'taxon';
+    var user = observation.user.login;
+    var date = observation.observed_on;
     return (
       <div class="observationCard">
-        <div class="photo">
-          <img src="https://farm4.staticflickr.com/3334/3406470969_3951b58e44_s.jpg" />
-        </div>
-        <div class="taxon">taxon: {observation.taxon}</div>
-        <div class="user">user: @{observation.user}</div>
-        <div class="date">date: {observation.date}</div>
+        <div class="photo"><img src={photo} /></div>
+        <div class="taxon"><i>{taxon}</i></div>
+        <div class="date">{date}</div>
+        <div class="user">@{user}</div>
       </div>
     );
   }
@@ -65,15 +67,54 @@ class FilterBar extends Component {
 }
 
 class App extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Steve's iNat React App</h1>
-        <FilterBar />
-        <ObservationsDiv observations={this.props.observations} />
-      </div>
-    );
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      results: []
+    };
   }
+
+  componentDidMount() {
+    fetch("https://api.inaturalist.org/v1/observations?per_page=10&order=desc&order_by=created_at")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            results: result.results
+          });
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+
+  render() {
+    const { error, isLoaded, results } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div>
+          <h1>Steve's iNat React App</h1>
+          <FilterBar />
+          <ObservationsDiv observations={results} />
+        </div>
+      );
+    }
+  }
+
 }
 
 export default App;

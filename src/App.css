@@ -13,7 +13,7 @@ form#filterForm {
 }
 
 div#SummaryDiv {
-  margin: 32px;
+  margin: 32px 32px -16px 32px;
 }
 
 table#SummaryTable td {

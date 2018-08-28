@@ -103,14 +103,45 @@ class FilterForm extends Component {
   }
 
   handleSubmit(event) {
+    var api_args = [];
+    var fetch_url = INAT + '/observations?';
+
+    if (this.state.quality !== 'any') {
+      if (this.state.quality == 'verifiable') {
+        api_args.push('verifiable=true');
+      } else {
+        api_args.push('quality_grade=' + this.state.quality);
+      }
+    }
+
+    if (this.state.mediatype !== 'any') {
+      if (this.state.mediatype == 'photos') {
+        api_args.push('photos=true')
+      }
+      if (this.state.mediatype == 'sounds') {
+        api_args.push('sounds=true')
+      }
+    }
+
+    if (this.state.community !== 'any') {
+      if (this.state.community == 'identified') {
+        api_args.push('identified=true')
+      }
+      if (this.state.community == 'popular') {
+        api_args.push('popular=true')
+      }
+    }
+
     alert(
       'quality: ' + this.state.quality
       + '\nmediatype: ' + this.state.mediatype
       + '\ncommunity: ' + this.state.community
       + '\nnativity: ' + this.state.nativity
-      + '\ntaxon: ' + this.state.taxon);
-    // fetch
+      + '\ntaxon: ' + this.state.taxon
+      + '\nargs: ' + api_args.join('&'));
+
     event.preventDefault();
+
   }
 
   render() {
@@ -122,10 +153,10 @@ class FilterForm extends Component {
             <td>
               <select name="quality" onChange={this.handleChange}>
                 <option value="any">Any</option>
+                <option value="casual">Casual</option>
                 <option value="needs_id">Needs ID</option>
                 <option value="research">Research</option>
-                <option value="casual">Casual</option>
-                <option value="varifiable">Verifiable</option>
+                <option value="verifiable">Verifiable</option>
               </select>
             </td>
           </tr>

@@ -134,36 +134,55 @@ class FilterForm extends Component {
       }
     }
 
-    alert(
-      'quality: ' + this.state.quality
-      + '\nmediatype: ' + this.state.mediatype
-      + '\ncommunity: ' + this.state.community
-      + '\nnativity: ' + this.state.nativity
-      + '\ntaxon: ' + this.state.taxon
-      + '\nargs: ' + api_args.join('&'));
+    if (this.state.nativity !== 'any') {
+      if (this.state.nativity == 'endemic') {
+        api_args.push('endemic=true')
+      }
+      if (this.state.nativity == 'introduced') {
+        api_args.push('introduced=true')
+      }
+      if (this.state.nativity == 'native') {
+        api_args.push('native=true')
+      }
+    }
 
-    fetch(fetch_url + api_args.join('&'))
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            summary: {
-              total: result.total_results,
-              page: result.page,
-              per_page: result.per_page
-            },
-            results: result.results
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
+    if (this.state.taxon) {
+      api_args.push('taxon_name=' + this.state.taxon)
+    }
 
+    if (api_args.length > 0) {
+      fetch_url += api_args.join('&');
+
+      alert(
+        'quality: ' + this.state.quality
+        + '\nmediatype: ' + this.state.mediatype
+        + '\ncommunity: ' + this.state.community
+        + '\nnativity: ' + this.state.nativity
+        + '\ntaxon: ' + this.state.taxon
+        + '\nfetch: ' + fetch_url);
+
+      fetch(fetch_url)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              isLoaded: true,
+              summary: {
+                total: result.total_results,
+                page: result.page,
+                per_page: result.per_page
+              },
+              results: result.results
+            });
+          },
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        )
+    }
   }
 
   render() {

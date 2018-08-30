@@ -75,10 +75,6 @@ class ObservationsDiv extends Component {
 
 
 class FilterForm extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <form id="filterForm" onSubmit={this.props.handleSubmit}>

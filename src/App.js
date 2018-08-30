@@ -42,7 +42,7 @@ class ObservationCard extends Component {
 
 class ObservationsDiv extends Component {
   render() {
-    const cards = [];
+    let cards = [];
     let count = 0;
 
     this.props.observations.forEach((observation) => {

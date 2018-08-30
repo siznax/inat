@@ -77,23 +77,16 @@ class ObservationsDiv extends Component {
 class FilterForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      quality: 'any',
-      mediatype: 'any',
-      community: 'all',
-      nativity: 'any',
-      taxon: ''
-    };
   }
 
   render() {
     return (
-      <form id="filterForm" onSubmit={this.handleSubmit}>
+      <form id="filterForm" onSubmit={this.props.handleSubmit}>
         <table>
           <tr>
             <td>Quality: </td>
             <td>
-              <select name="quality" onChange={this.handleChange}>
+              <select name="quality" onChange={this.props.handleChange}>
                 <option value="any">Any</option>
                 <option value="casual">Casual</option>
                 <option value="needs_id">Needs ID</option>
@@ -106,7 +99,7 @@ class FilterForm extends Component {
           <tr>
             <td>Media: </td>
             <td>
-              <select name="mediatype" onChange={this.handleChange}>
+              <select name="mediatype" onChange={this.props.handleChange}>
                 <option value="any">Any</option>
                 <option value="photos">Photos</option>
                 <option value="sounds">Sounds</option>
@@ -117,7 +110,7 @@ class FilterForm extends Component {
           <tr>
             <td>Community: </td>
             <td>
-              <select name="community" onChange={this.handleChange}>
+              <select name="community" onChange={this.props.handleChange}>
                 <option value="all">All</option>
                 <option value="identified">Identified</option>
                 <option value="popular">Popular</option>
@@ -128,7 +121,7 @@ class FilterForm extends Component {
           <tr>
             <td>Nativity: </td>
             <td>
-              <select name="nativity" onChange={this.handleChange}>
+              <select name="nativity" onChange={this.props.handleChange}>
                 <option value="any">Any</option>
                 <option value="endemic">Endemic</option>
                 <option value="introduced">Introduced</option>
@@ -144,7 +137,7 @@ class FilterForm extends Component {
                   type="text"
                   name="taxon"
                   placeholder="taxon name"
-                  onChange={this.handleChange}/>
+                  onChange={this.props.handleChange}/>
             </td>
           </tr>
 
@@ -166,7 +159,12 @@ class App extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      data: []
+      data: [],
+      quality: 'any',
+      mediatype: 'any',
+      community: 'all',
+      nativity: 'any',
+      taxon: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -222,21 +220,18 @@ class App extends Component {
     if (api_args.length > 0) {
       fetch_url += api_args.join('&');
 
-      alert(
-        'quality: ' + this.state.quality
-        + '\nmediatype: ' + this.state.mediatype
-        + '\ncommunity: ' + this.state.community
-        + '\nnativity: ' + this.state.nativity
-        + '\ntaxon: ' + this.state.taxon
-        + '\nfetch: ' + fetch_url);
+      // alert(
+      //   'quality: ' + this.state.quality
+      //   + '\nmediatype: ' + this.state.mediatype
+      //   + '\ncommunity: ' + this.state.community
+      //   + '\nnativity: ' + this.state.nativity
+      //   + '\ntaxon: ' + this.state.taxon
+      //   + '\nfetch: ' + fetch_url);
 
       fetch(fetch_url)
         .then(res => res.json())
         .then(
-          (result) => {
-            alert(result.total_results);
-            this.setState({isLoaded: true, data: result})
-          },
+          result => this.setState({isLoaded: true, data: result}),
           error => this.setState({isLoaded: true, error})
         )
     }
@@ -255,7 +250,9 @@ class App extends Component {
             <h3>Steve's iNat React App (post-challenge)</h3>
             <p><a href={REPO_URL}>{REPO_URL}</a></p>
           </div>
-          <FilterForm />
+          <FilterForm
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange} />
           <ObservationsDiv data={data} />
         </div>
       );

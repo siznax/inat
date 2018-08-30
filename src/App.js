@@ -282,7 +282,7 @@ class App extends Component {
               page: result.page,
               per_page: result.per_page
             },
-            results: result.results
+            observations: result.results
           });
         },
         (error) => {
@@ -295,7 +295,7 @@ class App extends Component {
   }
 
   render() {
-    const { error, isLoaded, summary, results } = this.state;
+    const { error, isLoaded, summary, observations } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -309,7 +309,7 @@ class App extends Component {
           </div>
           <FilterForm />
           <SummaryDiv summary={summary} />
-          <ObservationsDiv observations={results} />
+          <ObservationsDiv observations={observations} />
         </div>
       );
     }

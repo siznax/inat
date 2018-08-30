@@ -116,39 +116,22 @@ class FilterForm extends Component {
       }
     }
 
-    if (this.state.mediatype !== 'any') {
-      if (this.state.mediatype === 'photos') {
-        api_args.push('photos=true')
-      }
-      if (this.state.mediatype === 'sounds') {
-        api_args.push('sounds=true')
-      }
-    }
-
-    if (this.state.community !== 'any') {
-      if (this.state.community === 'identified') {
-        api_args.push('identified=true')
-      }
-      if (this.state.community === 'popular') {
-        api_args.push('popular=true')
-      }
-    }
-
-    if (this.state.nativity !== 'any') {
-      if (this.state.nativity === 'endemic') {
-        api_args.push('endemic=true')
-      }
-      if (this.state.nativity === 'introduced') {
-        api_args.push('introduced=true')
-      }
-      if (this.state.nativity === 'native') {
-        api_args.push('native=true')
-      }
-    }
-
-    if (this.state.taxon) {
+    if (this.state.mediatype === 'photos')
+      api_args.push('photos=true')
+    if (this.state.mediatype === 'sounds')
+      api_args.push('sounds=true')
+    if (this.state.community === 'identified')
+      api_args.push('identified=true')
+    if (this.state.community === 'popular')
+      api_args.push('popular=true')
+    if (this.state.nativity === 'endemic')
+      api_args.push('endemic=true')
+    if (this.state.nativity === 'introduced')
+      api_args.push('introduced=true')
+    if (this.state.nativity === 'native')
+      api_args.push('native=true')
+    if (this.state.taxon)
       api_args.push('taxon_name=' + this.state.taxon)
-    }
 
     if (api_args.length > 0) {
       fetch_url += api_args.join('&');

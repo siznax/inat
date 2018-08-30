@@ -25,7 +25,4 @@ Current state:
   * Initial API call populates app
   * Form allows composing new API URL
   * Form submit fetches new results
-
-To be done:
-
-  * Update components with new results
+  * Updates components with new results (post-challenge)

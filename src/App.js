@@ -80,8 +80,7 @@ class FilterForm extends Component {
     this.state = {
       error: null,
       isLoaded: true,
-      summary: null,
-      observations: [],
+      data: [],
       quality: 'any',
       mediatype: 'any',
       community: 'all',
@@ -147,28 +146,15 @@ class FilterForm extends Component {
         .then(
           (result) => {
             alert(result.total_results);
-            this.setState({
-              isLoaded: true,
-              summary: {
-                total: result.total_results,
-                page: result.page,
-                per_page: result.per_page
-              },
-              observations: result.results
-            });
+            this.setState({isLoaded: true, data: result})
           },
-          (error) => {
-            this.setState({
-              isLoaded: true,
-              error
-            });
-          }
+          error => this.setState({isLoaded: true, error})
         )
     }
   }
 
   render() {
-    const { error, isLoaded, summary, observations } = this.state;
+    const { error, isLoaded, data } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {

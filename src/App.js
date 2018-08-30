@@ -9,7 +9,6 @@ const INAT_API = 'https://api.inaturalist.org/v1';
 
 
 class ObservationCard extends Component {
-
   render() {
     const observation = this.props.observation;
     const number = this.props.count;
@@ -84,6 +83,10 @@ class FilterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
+      isLoaded: false,
+      summary: null,
+      observations: [],
       quality: 'any',
       mediatype: 'any',
       community: 'all',
@@ -250,7 +253,7 @@ class App extends Component {
       error: null,
       isLoaded: false,
       summary: null,
-      results: []
+      observations: []
     };
   }
 

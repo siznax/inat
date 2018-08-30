@@ -259,8 +259,7 @@ class App extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      summary: null,
-      observations: []
+      data: []
     };
   }
 
@@ -268,28 +267,13 @@ class App extends Component {
     fetch(INAT_API + "/observations")
       .then(res => res.json())
       .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            summary: {
-              total: result.total_results,
-              page: result.page,
-              per_page: result.per_page
-            },
-            observations: result.results
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
+        result => this.setState({isLoaded: true, data: result}),
+        error => this.setState({isLoaded: true, error})
       )
   }
 
   render() {
-    const { error, isLoaded, summary, observations } = this.state;
+    const { error, isLoaded, data } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -302,8 +286,7 @@ class App extends Component {
             <p><a href={REPO_URL}>{REPO_URL}</a></p>
           </div>
           <FilterForm />
-          <SummaryDiv summary={summary} />
-          <ObservationsDiv observations={observations} />
+          <ObservationsDiv observations={data.results} />
         </div>
       );
     }

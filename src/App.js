@@ -247,7 +247,7 @@ class App extends Component {
       return (
         <div>
           <div id="header">
-            <h3>Steve's iNat React App (post-challenge)</h3>
+            <h3>Steve's iNat React App</h3>
             <p><a href={REPO_URL}>{REPO_URL}</a></p>
           </div>
           <FilterForm

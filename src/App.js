@@ -44,7 +44,7 @@ class ObservationsDiv extends Component {
     let cards = [];
     let count = 0;
 
-    this.props.observations.forEach((observation) => {
+    this.props.data.results.forEach((observation) => {
       count += 1;
       cards.push(
         <ObservationCard
@@ -54,25 +54,20 @@ class ObservationsDiv extends Component {
       )
     })
 
-    return (<div id="observationsDiv">{ cards }</div>);
-  }
-}
-
-
-class SummaryDiv extends Component {
-  render() {
-    const total = this.props.summary.total;
-    const page = this.props.summary.page;
-    const per_page = this.props.summary.per_page;
     return (
-      <div id="SummaryDiv">
-        <table id="SummaryTable">
-          <tr>
-            <td>Total: {total.toLocaleString()}</td>
-            <td>Per page: {per_page}</td>
-            <td>Page: {page}</td>
-          </tr>
-        </table>
+      <div>
+        <div id="SummaryDiv">
+          <table id="SummaryTable">
+            <tr>
+              <td>Total: {this.props.data.total_results.toLocaleString()}</td>
+              <td>Per page: {this.props.data.per_page}</td>
+              <td>Page: {this.props.data.page}</td>
+            </tr>
+          </table>
+        </div>
+        <div id="observationsDiv">
+          {cards}
+        </div>
       </div>
     );
   }
@@ -286,7 +281,7 @@ class App extends Component {
             <p><a href={REPO_URL}>{REPO_URL}</a></p>
           </div>
           <FilterForm />
-          <ObservationsDiv observations={data.results} />
+          <ObservationsDiv data={data} />
         </div>
       );
     }

@@ -84,7 +84,7 @@ class FilterForm extends Component {
     super(props);
     this.state = {
       error: null,
-      isLoaded: false,
+      isLoaded: true,
       summary: null,
       observations: [],
       quality: 'any',
@@ -173,75 +173,82 @@ class FilterForm extends Component {
   }
 
   render() {
-    return (
-      <form id="filterForm" onSubmit={this.handleSubmit}>
-        <table>
-          <tr>
-            <td>Quality: </td>
-            <td>
-              <select name="quality" onChange={this.handleChange}>
-                <option value="any">Any</option>
-                <option value="casual">Casual</option>
-                <option value="needs_id">Needs ID</option>
-                <option value="research">Research</option>
-                <option value="verifiable">Verifiable</option>
-              </select>
-            </td>
-          </tr>
+    const { error, isLoaded, summary, observations } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <form id="filterForm" onSubmit={this.handleSubmit}>
+          <table>
+            <tr>
+              <td>Quality: </td>
+              <td>
+                <select name="quality" onChange={this.handleChange}>
+                  <option value="any">Any</option>
+                  <option value="casual">Casual</option>
+                  <option value="needs_id">Needs ID</option>
+                  <option value="research">Research</option>
+                  <option value="verifiable">Verifiable</option>
+                </select>
+              </td>
+            </tr>
 
-          <tr>
-            <td>Media: </td>
-            <td>
-              <select name="mediatype" onChange={this.handleChange}>
-                <option value="any">Any</option>
-                <option value="photos">Photos</option>
-                <option value="sounds">Sounds</option>
-              </select>
-            </td>
-          </tr>
+            <tr>
+              <td>Media: </td>
+              <td>
+                <select name="mediatype" onChange={this.handleChange}>
+                  <option value="any">Any</option>
+                  <option value="photos">Photos</option>
+                  <option value="sounds">Sounds</option>
+                </select>
+              </td>
+            </tr>
 
-          <tr>
-            <td>Community: </td>
-            <td>
-              <select name="community" onChange={this.handleChange}>
-                <option value="all">All</option>
-                <option value="identified">Identified</option>
-                <option value="popular">Popular</option>
-              </select>
-            </td>
-          </tr>
+            <tr>
+              <td>Community: </td>
+              <td>
+                <select name="community" onChange={this.handleChange}>
+                  <option value="all">All</option>
+                  <option value="identified">Identified</option>
+                  <option value="popular">Popular</option>
+                </select>
+              </td>
+            </tr>
 
-          <tr>
-            <td>Nativity: </td>
-            <td>
-              <select name="nativity" onChange={this.handleChange}>
-                <option value="any">Any</option>
-                <option value="endemic">Endemic</option>
-                <option value="introduced">Introduced</option>
-                <option value="native">Native</option>
-              </select>
-            </td>
-          </tr>
+            <tr>
+              <td>Nativity: </td>
+              <td>
+                <select name="nativity" onChange={this.handleChange}>
+                  <option value="any">Any</option>
+                  <option value="endemic">Endemic</option>
+                  <option value="introduced">Introduced</option>
+                  <option value="native">Native</option>
+                </select>
+              </td>
+            </tr>
 
-          <tr>
-            <td>Taxon: </td>
-            <td>
-                <input
-                  type="text"
-                  name="taxon"
-                  placeholder="taxon name"
-                  onChange={this.handleChange}/>
-            </td>
-          </tr>
+            <tr>
+              <td>Taxon: </td>
+              <td>
+                  <input
+                    type="text"
+                    name="taxon"
+                    placeholder="taxon name"
+                    onChange={this.handleChange}/>
+              </td>
+            </tr>
 
-          <tr>
-            <td></td>
-            <td><input type="submit" /></td>
-          </tr>
+            <tr>
+              <td></td>
+              <td><input type="submit" /></td>
+            </tr>
 
-        </table>
-      </form>
-    );
+          </table>
+        </form>
+      );
+    }
   }
 }
 

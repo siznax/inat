@@ -14,18 +14,18 @@ class ObservationCard extends Component {
     const observation = this.props.observation;
     const number = this.props.count;
 
-    var photo = DEFAULT_PHOTO;
+    let photo = DEFAULT_PHOTO;
     if (observation.photos.length > 0) {
       photo = observation.photos[0].url;
     }
 
-    var taxon = observation.taxon ? observation.taxon.name : 'taxon';
-    var user = observation.user.login;
-    var date = observation.observed_on;
+    let taxon = observation.taxon ? observation.taxon.name : 'taxon';
+    let user = observation.user.login;
+    let date = observation.observed_on;
 
     // observation.uri ?
-    var observation_url = INAT + '/observations/' + observation.id;
-    var observer_url = INAT + '/people/' + user;
+    let observation_url = INAT + '/observations/' + observation.id;
+    let observer_url = INAT + '/people/' + user;
 
     return (
       <div class="observationCard">
@@ -43,7 +43,7 @@ class ObservationCard extends Component {
 class ObservationsDiv extends Component {
   render() {
     const cards = [];
-    var count = 0;
+    let count = 0;
 
     this.props.observations.forEach((observation) => {
       count += 1;
@@ -105,8 +105,8 @@ class FilterForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    var api_args = [];
-    var fetch_url = INAT_API + '/observations?';
+    let api_args = [];
+    let fetch_url = INAT_API + '/observations?';
 
     if (this.state.quality !== 'any') {
       if (this.state.quality === 'verifiable') {

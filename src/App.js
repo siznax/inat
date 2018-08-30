@@ -165,6 +165,7 @@ class FilterForm extends Component {
         .then(res => res.json())
         .then(
           (result) => {
+            alert(result.total_results);
             this.setState({
               isLoaded: true,
               summary: {
@@ -172,7 +173,7 @@ class FilterForm extends Component {
                 page: result.page,
                 per_page: result.per_page
               },
-              results: result.results
+              observations: result.results
             });
           },
           (error) => {
